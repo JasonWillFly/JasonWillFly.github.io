@@ -77,7 +77,7 @@
 						<li>Links</li>
 						
 						
-						<li>About</li>
+						<li>A propos</li>
 						
 					</ul>
 				</div>
@@ -114,7 +114,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/开始/" style="font-size: 10px;">开始</a>
+						<a href="/tags/IDEA/" style="font-size: 10px;">IDEA</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/开始/" style="font-size: 10px;">开始</a> <a href="/tags/玩/" style="font-size: 10px;">玩</a>
 					</div>
 				</section>
 				
@@ -198,6 +198,207 @@
 
       <div class="body-wrap">
   
+    <article id="post-神奇的mapping-文件夹" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/05/神奇的mapping-文件夹/" class="article-date">
+  	<time datetime="2016-04-05T13:52:17.000Z" itemprop="datePublished">2016-04-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/05/神奇的mapping-文件夹/">神奇的mapping 文件夹</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一个-maven-项目中-Source-Dir-里面有除了-java-的文件"><a href="#一个-maven-项目中-Source-Dir-里面有除了-java-的文件" class="headerlink" title="一个 maven 项目中 Source Dir 里面有除了 .java 的文件"></a>一个 maven 项目中 Source Dir 里面有除了 .java 的文件</h2><p>然而这种情况下，IDEA 会按照 maven 的方式来 make, build<br>所以在 target/classes 中并不会出现资源文件（.xml 等）</p>
+<h2 id="项目中用到了-mybatis-spring"><a href="#项目中用到了-mybatis-spring" class="headerlink" title="项目中用到了 mybatis-spring"></a>项目中用到了 mybatis-spring</h2><p>所以会在 source dir 中出现 mapping/*.xml 等<br>生成的 target/classes 也需要将 source dir 中的 .xml</p>
+<h2 id="怎么办呢？！"><a href="#怎么办呢？！" class="headerlink" title="怎么办呢？！"></a>怎么办呢？！</h2><p>好吧，前前后后花费了大概三天，四五个小时。<br>之前的问题在于 maven package 中报错，.xml 找不到，我还一直没理解，原来就是因为 target/classes 中 <strong>确实</strong> 没有相应的 .xml 文件。</p>
+<h3 id="队友用的-eclipse-毫无这个问题"><a href="#队友用的-eclipse-毫无这个问题" class="headerlink" title="队友用的 eclipse 毫无这个问题"></a>队友用的 eclipse 毫无这个问题</h3><p>这是怎么回事呢？<br><a href="http://stackoverflow.com/questions/12444683/why-xml-files-in-eclipse-projects-source-directory-is-not-copied-to-target-clas" target="_blank" rel="external">http://stackoverflow.com/questions/12444683/why-xml-files-in-eclipse-projects-source-directory-is-not-copied-to-target-clas</a><br>这篇就解答了，实际上 eclipse 默认会将资源文件复制到输出目录中。。。好吧</p>
+<h2 id="IDEA-要怎么复制呢？"><a href="#IDEA-要怎么复制呢？" class="headerlink" title="IDEA 要怎么复制呢？"></a>IDEA 要怎么复制呢？</h2><p><a href="http://stackoverflow.com/questions/11176969/intellij-how-to-make-non-java-files-copied-to-the-bin-directory-as-well" target="_blank" rel="external">http://stackoverflow.com/questions/11176969/intellij-how-to-make-non-java-files-copied-to-the-bin-directory-as-well</a><br>这篇是相关问题的汇总。<br>但即使是在 <code>Compiler | Resource Patterns</code> 中添加 <code>?*.xml</code> 甚至 <code>**.*.xml</code> 依然不能解决，我猜想原因在于 IDEA 识别出了 maven 项目，会按照它的方式来处理资源文件（*.xml 等）</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>解决办法在<a href="http://stackoverflow.com/questions/12444683/why-xml-files-in-eclipse-projects-source-directory-is-not-copied-to-target-clas" target="_blank" rel="external">第一个链接</a>中已经提到<br>在 pom.xml 中添加如下代码：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- This include everything else under src/main/java directory --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;basedir&#125;/src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">excludes</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/*.java<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">excludes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">finalName</span>&gt;</span>flyeagle<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这时再次 build，世界都清净了！</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IDEA/">IDEA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-test-formula" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/03/test-formula/" class="article-date">
+  	<time datetime="2016-04-03T04:35:07.000Z" itemprop="datePublished">2016-04-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/03/test-formula/">test formula</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-北京好玩的" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/01/北京好玩的/" class="article-date">
+  	<time datetime="2016-04-01T06:18:52.000Z" itemprop="datePublished">2016-04-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/01/北京好玩的/">北京好玩的</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><p>[ ] 云蒙山 怀柔</p>
+<blockquote>
+<p>东直门916快, 转 936支</p>
+<p>穿越攻略 <a href="http://www.mafengwo.cn/i/2850205.html" target="_blank" rel="external">http://www.mafengwo.cn/i/2850205.html</a></p>
+</blockquote>
+</li>
+<li><p>[ ] 张裕爱斐堡</p>
+</li>
+<li>[ ] 玉渊潭</li>
+<li>[ ] 紫竹院</li>
+<li><p>[ ] 喇叭沟 最北</p>
+<blockquote>
+<p><a href="http://www.mafengwo.cn/i/2862376.html" target="_blank" rel="external">http://www.mafengwo.cn/i/2862376.html</a></p>
+</blockquote>
+</li>
+<li><p>[ ] 妙峰山 北京全景 西北方向 爨底下村</p>
+<blockquote>
+<p><a href="http://lvyou.baidu.com/notes/9ad35458084d7829a929184c" target="_blank" rel="external">http://lvyou.baidu.com/notes/9ad35458084d7829a929184c</a></p>
+</blockquote>
+</li>
+<li><p>[ ] 雁栖湖 青龙峡 怀柔</p>
+</li>
+<li>[ ] 十渡 房山区<blockquote>
+<p><a href="http://lvyou.baidu.com/notes/660ccb5e4a3365b88b2d0449" target="_blank" rel="external">http://lvyou.baidu.com/notes/660ccb5e4a3365b88b2d0449</a></p>
+</blockquote>
+</li>
+</ul>
+<h3 id="骑行"><a href="#骑行" class="headerlink" title="骑行"></a>骑行</h3><p>北宫 戒台寺 潭柘寺 王平镇 妙峰山镇 门头沟：<br><a href="http://lvyou.baidu.com/notes/eaa478713c0a3ba2fffca4a2" target="_blank" rel="external">http://lvyou.baidu.com/notes/eaa478713c0a3ba2fffca4a2</a></p>
+<h3 id="北京郊区景点"><a href="#北京郊区景点" class="headerlink" title="北京郊区景点"></a>北京郊区景点</h3><p><a href="http://lvyou.baidu.com/notes/0245f7fa163e7b743432641e" target="_blank" rel="external">http://lvyou.baidu.com/notes/0245f7fa163e7b743432641e</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/玩/">玩</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-嘿嘿嘿" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -240,6 +441,10 @@
 	</div>
 
       
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/记录/">记录</a><a class="article-category-link" href="/categories/记录/建站/">建站</a>
+	</div>
+
 
       
       <div class="clearfix"></div>
