@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>test formula | JasonWillFly</title>
+  <title>微信记录导出 | JasonWillFly</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="根据https://articles.forensicfocus.com/2014/10/01/decrypt-wechat-enmicromsgdb-database/和http://blog.emaze.net/2013/09/a-look-at-wechat-security.html两篇文章可以得知微信的 EnMicroMsg.db 的 key 为 md5(imei + uid)[:7]h">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test formula">
-<meta property="og:url" content="http://yoursite.com/2016/04/03/test-formula/index.html">
+<meta property="og:title" content="微信记录导出">
+<meta property="og:url" content="http://yoursite.com/2016/04/11/微信记录导出/index.html">
 <meta property="og:site_name" content="JasonWillFly">
-<meta property="og:description">
-<meta property="og:updated_time" content="2016-04-03T04:35:07.000Z">
+<meta property="og:description" content="根据https://articles.forensicfocus.com/2014/10/01/decrypt-wechat-enmicromsgdb-database/和http://blog.emaze.net/2013/09/a-look-at-wechat-security.html两篇文章可以得知微信的 EnMicroMsg.db 的 key 为 md5(imei + uid)[:7]h">
+<meta property="og:updated_time" content="2016-04-11T11:29:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="test formula">
-<meta name="twitter:description">
+<meta name="twitter:title" content="微信记录导出">
+<meta name="twitter:description" content="根据https://articles.forensicfocus.com/2014/10/01/decrypt-wechat-enmicromsgdb-database/和http://blog.emaze.net/2013/09/a-look-at-wechat-security.html两篇文章可以得知微信的 EnMicroMsg.db 的 key 为 md5(imei + uid)[:7]h">
   
     <link rel="alternative" href="/atom.xml" title="JasonWillFly" type="application/atom+xml">
   
@@ -197,11 +197,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-test-formula" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-微信记录导出" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/04/03/test-formula/" class="article-date">
-  	<time datetime="2016-04-03T04:35:07.000Z" itemprop="datePublished">2016-04-03</time>
+      <a href="/2016/04/11/微信记录导出/" class="article-date">
+  	<time datetime="2016-04-11T11:15:15.000Z" itemprop="datePublished">2016-04-11</time>
 </a>
     </div>
   
@@ -214,7 +214,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      test formula
+      微信记录导出
     </h1>
   
 
@@ -230,7 +230,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>根据<a href="https://articles.forensicfocus.com/2014/10/01/decrypt-wechat-enmicromsgdb-database/" target="_blank" rel="external">https://articles.forensicfocus.com/2014/10/01/decrypt-wechat-enmicromsgdb-database/</a><br>和<a href="http://blog.emaze.net/2013/09/a-look-at-wechat-security.html" target="_blank" rel="external">http://blog.emaze.net/2013/09/a-look-at-wechat-security.html</a><br>两篇文章可以得知微信的 EnMicroMsg.db 的 key 为 <code>md5(imei + uid)[:7]</code><br><a href="https://github.com/ppwwyyxx/wechat-dump" target="_blank" rel="external">https://github.com/ppwwyyxx/wechat-dump</a>实现了解密和提取聊天记录，然而光是有了 key，还不能正确解密 EnMicroMsg.db<br>因为有一些参数要设置正确才可以。。。如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PRAGMA key = `key`;</span><br><span class="line">PRAGMA cipher_use_hmac = OFF;</span><br><span class="line">PRAGMA cipher_page_size = 1024;</span><br><span class="line">PRAGMA kdf_iter = 4000;</span><br></pre></td></tr></table></figure></p>
+<p>这样才可以解开。。。</p>
+<p>过程中遇到的问题：</p>
+<ol>
+<li>本来想直接用 MesaSQLite 等软件，输入了 key 提示失败，原因应该在于其他参数不一致吧。</li>
+<li>根据<a href="http://blog.csdn.net/u010062440/article/details/50077047" target="_blank" rel="external">http://blog.csdn.net/u010062440/article/details/50077047</a>尝试自己安装 sqlcipher，命令行解密，然而失败，参数原因。</li>
+<li>mac 上安装 pysqlcipher 失败，原因在于 OS X 10.11(EI Captain)去掉了默认的 openssl 库，<ol>
+<li>brew install openssl</li>
+<li>brew link openssl –force</li>
+<li>然而，pip install pysqlcipher 依然失败，因为 /usr/local/include 不在 cc 的 header path 中</li>
+<li>根据 <a href="http://stackoverflow.com/questions/4825652/how-do-i-add-a-directory-to-c-header-include-path" target="_blank" rel="external">http://stackoverflow.com/questions/4825652/how-do-i-add-a-directory-to-c-header-include-path</a><br>export C_INCLUDE_PATH=/usr/local/include<br>再安装就好了。。。<br>由于安装的时候 sudo了，所以先sudo -s 再 export 吧。不然 sudo 后的环境变量会消失。</li>
+</ol>
+</li>
+</ol>
+
       
     </div>
     
@@ -239,18 +253,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/04/05/神奇的mapping-文件夹/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/04/18/nodeclub学习笔记/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          神奇的mapping 文件夹
+          nodeclub学习笔记
         
       </div>
     </a>
   
   
-    <a href="/2016/04/01/北京好玩的/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">北京好玩的</div>
+    <a href="/2016/04/05/神奇的mapping-文件夹/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">神奇的mapping 文件夹</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -285,7 +299,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="test-formula" data-title="test formula" data-url="http://yoursite.com/2016/04/03/test-formula/"></div>
+	<div class="ds-thread" data-thread-key="微信记录导出" data-title="微信记录导出" data-url="http://yoursite.com/2016/04/11/微信记录导出/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

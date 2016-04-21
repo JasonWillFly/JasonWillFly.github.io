@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>test formula | JasonWillFly</title>
+  <title>nodeclub学习笔记 | JasonWillFly</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="一直没懂的 Loader在 nodeclub 项目的模板文件（layout.html）中出现了 Loader 函数，后来发现是一个模块，翻看了 npm 和 github 的简介也还是迷迷糊糊，一知半解，不懂怎么用。并且 github 的 example 已经不能用了（好像是 app.js 里面写得有问题），所以还是没学会怎么用。接下来我仔细看了 nodeclub 的代码，我发现这里面的用法跟 ex">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test formula">
-<meta property="og:url" content="http://yoursite.com/2016/04/03/test-formula/index.html">
+<meta property="og:title" content="nodeclub学习笔记">
+<meta property="og:url" content="http://yoursite.com/2016/04/18/nodeclub学习笔记/index.html">
 <meta property="og:site_name" content="JasonWillFly">
-<meta property="og:description">
-<meta property="og:updated_time" content="2016-04-03T04:35:07.000Z">
+<meta property="og:description" content="一直没懂的 Loader在 nodeclub 项目的模板文件（layout.html）中出现了 Loader 函数，后来发现是一个模块，翻看了 npm 和 github 的简介也还是迷迷糊糊，一知半解，不懂怎么用。并且 github 的 example 已经不能用了（好像是 app.js 里面写得有问题），所以还是没学会怎么用。接下来我仔细看了 nodeclub 的代码，我发现这里面的用法跟 ex">
+<meta property="og:updated_time" content="2016-04-18T08:05:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="test formula">
-<meta name="twitter:description">
+<meta name="twitter:title" content="nodeclub学习笔记">
+<meta name="twitter:description" content="一直没懂的 Loader在 nodeclub 项目的模板文件（layout.html）中出现了 Loader 函数，后来发现是一个模块，翻看了 npm 和 github 的简介也还是迷迷糊糊，一知半解，不懂怎么用。并且 github 的 example 已经不能用了（好像是 app.js 里面写得有问题），所以还是没学会怎么用。接下来我仔细看了 nodeclub 的代码，我发现这里面的用法跟 ex">
   
     <link rel="alternative" href="/atom.xml" title="JasonWillFly" type="application/atom+xml">
   
@@ -197,11 +197,11 @@
 	</div>
 </nav>
 
-      <div class="body-wrap"><article id="post-test-formula" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-nodeclub学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/04/03/test-formula/" class="article-date">
-  	<time datetime="2016-04-03T04:35:07.000Z" itemprop="datePublished">2016-04-03</time>
+      <a href="/2016/04/18/nodeclub学习笔记/" class="article-date">
+  	<time datetime="2016-04-18T07:51:37.000Z" itemprop="datePublished">2016-04-18</time>
 </a>
     </div>
   
@@ -214,7 +214,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      test formula
+      nodeclub学习笔记
     </h1>
   
 
@@ -222,6 +222,10 @@
       
       <div class="article-info article-info-post">
         
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/express/">express</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodeclub/">nodeclub</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
+	</div>
+
         
 
         <div class="clearfix"></div>
@@ -230,7 +234,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h3 id="一直没懂的-Loader"><a href="#一直没懂的-Loader" class="headerlink" title="一直没懂的 Loader"></a>一直没懂的 Loader</h3><p>在 nodeclub 项目的模板文件（layout.html）中出现了 Loader 函数，后来发现是一个模块，翻看了 <a href="https://www.npmjs.com/package/loader" target="_blank" rel="external">npm</a> 和 <a href="https://github.com/JacksonTian/loader" target="_blank" rel="external">github</a> 的简介也还是迷迷糊糊，一知半解，不懂怎么用。并且 <a href="https://github.com/JacksonTian/loader" target="_blank" rel="external">github</a> 的 example 已经不能用了（好像是 app.js 里面写得有问题），所以还是没学会怎么用。<br>接下来我仔细看了 nodeclub 的代码，我发现这里面的用法跟 example 里面的不太相同，似乎更简单。慢慢想了想，原来是这样使用的：  </p>
+<ol>
+<li>nodeclub 里面使用了 lodash (呵呵，又不懂)，查阅<a href="https://lodash.com/" target="_blank" rel="external">官网</a>之后，明白了就是个 js 拓展，包装了一些方法。</li>
+<li><p>这么一段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_.extend(app.locals, &#123;</span><br><span class="line">  config: config,</span><br><span class="line">  Loader: Loader,</span><br><span class="line">  assets: assets</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>让我大概明白了，就是把 Loader 传给了模板文件，使之可以被调用，<br>原来如此！</p>
+</li>
+<li>这个 app.locals 是什么鬼呢？<br>查阅之后发现这个就是用来定义 helper function 的，在 stackoverfolw 和 <a href="http://expressjs.com/zh-cn/api.html#app.locals" target="_blank" rel="external">express API</a> 中说到了。</li>
+<li>所以这个 Loader 跟模板引擎无关，我可以放心大胆的抛弃 ejs 了，哈哈！</li>
+</ol>
+
       
     </div>
     
@@ -239,18 +253,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/04/05/神奇的mapping-文件夹/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/04/21/gitignore 文件解疑/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          神奇的mapping 文件夹
+          .gitignore 文件解疑
         
       </div>
     </a>
   
   
-    <a href="/2016/04/01/北京好玩的/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">北京好玩的</div>
+    <a href="/2016/04/11/微信记录导出/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">微信记录导出</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
@@ -285,7 +299,7 @@
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="test-formula" data-title="test formula" data-url="http://yoursite.com/2016/04/03/test-formula/"></div>
+	<div class="ds-thread" data-thread-key="nodeclub学习笔记" data-title="nodeclub学习笔记" data-url="http://yoursite.com/2016/04/18/nodeclub学习笔记/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">

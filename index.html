@@ -77,7 +77,7 @@
 						<li>Links</li>
 						
 						
-						<li>A propos</li>
+						<li>Über</li>
 						
 					</ul>
 				</div>
@@ -114,7 +114,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/IDEA/" style="font-size: 10px;">IDEA</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/开始/" style="font-size: 10px;">开始</a> <a href="/tags/玩/" style="font-size: 10px;">玩</a>
+						<a href="/tags/IDEA/" style="font-size: 10px;">IDEA</a> <a href="/tags/express/" style="font-size: 10px;">express</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/nodeclub/" style="font-size: 10px;">nodeclub</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/开始/" style="font-size: 10px;">开始</a> <a href="/tags/玩/" style="font-size: 10px;">玩</a>
 					</div>
 				</section>
 				
@@ -198,6 +198,214 @@
 
       <div class="body-wrap">
   
+    <article id="post-gitignore 文件解疑" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/21/gitignore 文件解疑/" class="article-date">
+  	<time datetime="2016-04-21T03:49:23.000Z" itemprop="datePublished">2016-04-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/21/gitignore 文件解疑/">.gitignore 文件解疑</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="gitignore-模式匹配"><a href="#gitignore-模式匹配" class="headerlink" title=".gitignore 模式匹配"></a>.gitignore 模式匹配</h3><p>.gitignore 用来让 git 在跟踪时忽略特定的文件，每一行是一个模式，<code>#</code>注释。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*.[ao]</span><br></pre></td></tr></table></figure></p>
+<h3 id="一些点"><a href="#一些点" class="headerlink" title="一些点"></a>一些点</h3><ol>
+<li><code>!</code>反匹配</li>
+<li><p>反匹配用于忽略目录中的 except 情况，参见<a href="https://git-scm.com/docs/gitignore" target="_blank" rel="external">git 官方文档</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">!/foo</span><br><span class="line">/foo/*</span><br><span class="line">!/foo/bar</span><br></pre></td></tr></table></figure>
+<p>然而在排除了整个目录中，不能再次包含其中的某个/些文件了！见<a href="https://git-scm.com/docs/gitignore" target="_blank" rel="external">git 官方文档</a>，</p>
+<blockquote>
+<p>It is not possible to re-include a file if a parent directory of that file is excluded.</p>
+</blockquote>
+<p>所以下面这样的话，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">foo/</span><br><span class="line">!foo/bar</span><br></pre></td></tr></table></figure>
+<p>foo/bar 不会包含，会被忽略。</p>
+</li>
+<li>采用 glob</li>
+<li><code>/</code>匹配 .gitignore 所在目录</li>
+<li>层级 .gitignore ，子目录中的模式覆盖父目录中的</li>
+<li>git 会忽略过滤（根据 .gitignore）后的<strong>全空目录</strong></li>
+</ol>
+<h3 id="我认为的和实际上的不同"><a href="#我认为的和实际上的不同" class="headerlink" title="我认为的和实际上的不同"></a>我认为的和实际上的不同</h3><h4 id="a的作用"><a href="#a的作用" class="headerlink" title="*.a的作用"></a><code>*.a</code>的作用</h4><p><code>*.a</code>会匹配 <strong>当前目录 以及 所有子孙目录</strong> 中的文件，我本来以为只会匹配当前目录下的后缀为 <code>a</code>的文件。</p>
+<h4 id="gitkeep-文件的作用"><a href="#gitkeep-文件的作用" class="headerlink" title=".gitkeep 文件的作用"></a>.gitkeep 文件的作用</h4><p>就是用于包含空目录的！原理在于实际上将 .gitkeep 文件加入仓库，该目录就不是全空了！所以<strong>换成任何文件都行</strong>，比如 .empty ，.gitkepp 只是惯用名称，参见<a href="http://stackoverflow.com/questions/7229885/what-are-the-differences-between-gitignore-and-gitkeep" target="_blank" rel="external">这里</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/">git</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-nodeclub学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/18/nodeclub学习笔记/" class="article-date">
+  	<time datetime="2016-04-18T07:51:37.000Z" itemprop="datePublished">2016-04-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/18/nodeclub学习笔记/">nodeclub学习笔记</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一直没懂的-Loader"><a href="#一直没懂的-Loader" class="headerlink" title="一直没懂的 Loader"></a>一直没懂的 Loader</h3><p>在 nodeclub 项目的模板文件（layout.html）中出现了 Loader 函数，后来发现是一个模块，翻看了 <a href="https://www.npmjs.com/package/loader" target="_blank" rel="external">npm</a> 和 <a href="https://github.com/JacksonTian/loader" target="_blank" rel="external">github</a> 的简介也还是迷迷糊糊，一知半解，不懂怎么用。并且 <a href="https://github.com/JacksonTian/loader" target="_blank" rel="external">github</a> 的 example 已经不能用了（好像是 app.js 里面写得有问题），所以还是没学会怎么用。<br>接下来我仔细看了 nodeclub 的代码，我发现这里面的用法跟 example 里面的不太相同，似乎更简单。慢慢想了想，原来是这样使用的：  </p>
+<ol>
+<li>nodeclub 里面使用了 lodash (呵呵，又不懂)，查阅<a href="https://lodash.com/" target="_blank" rel="external">官网</a>之后，明白了就是个 js 拓展，包装了一些方法。</li>
+<li><p>这么一段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">_.extend(app.locals, &#123;</span><br><span class="line">  config: config,</span><br><span class="line">  Loader: Loader,</span><br><span class="line">  assets: assets</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>让我大概明白了，就是把 Loader 传给了模板文件，使之可以被调用，<br>原来如此！</p>
+</li>
+<li>这个 app.locals 是什么鬼呢？<br>查阅之后发现这个就是用来定义 helper function 的，在 stackoverfolw 和 <a href="http://expressjs.com/zh-cn/api.html#app.locals" target="_blank" rel="external">express API</a> 中说到了。</li>
+<li>所以这个 Loader 跟模板引擎无关，我可以放心大胆的抛弃 ejs 了，哈哈！</li>
+</ol>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/express/">express</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodeclub/">nodeclub</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
+	</div>
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-微信记录导出" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/11/微信记录导出/" class="article-date">
+  	<time datetime="2016-04-11T11:15:15.000Z" itemprop="datePublished">2016-04-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/11/微信记录导出/">微信记录导出</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>根据<a href="https://articles.forensicfocus.com/2014/10/01/decrypt-wechat-enmicromsgdb-database/" target="_blank" rel="external">https://articles.forensicfocus.com/2014/10/01/decrypt-wechat-enmicromsgdb-database/</a><br>和<a href="http://blog.emaze.net/2013/09/a-look-at-wechat-security.html" target="_blank" rel="external">http://blog.emaze.net/2013/09/a-look-at-wechat-security.html</a><br>两篇文章可以得知微信的 EnMicroMsg.db 的 key 为 <code>md5(imei + uid)[:7]</code><br><a href="https://github.com/ppwwyyxx/wechat-dump" target="_blank" rel="external">https://github.com/ppwwyyxx/wechat-dump</a>实现了解密和提取聊天记录，然而光是有了 key，还不能正确解密 EnMicroMsg.db<br>因为有一些参数要设置正确才可以。。。如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PRAGMA key = `key`;</span><br><span class="line">PRAGMA cipher_use_hmac = OFF;</span><br><span class="line">PRAGMA cipher_page_size = 1024;</span><br><span class="line">PRAGMA kdf_iter = 4000;</span><br></pre></td></tr></table></figure></p>
+<p>这样才可以解开。。。</p>
+<p>过程中遇到的问题：</p>
+<ol>
+<li>本来想直接用 MesaSQLite 等软件，输入了 key 提示失败，原因应该在于其他参数不一致吧。</li>
+<li>根据<a href="http://blog.csdn.net/u010062440/article/details/50077047" target="_blank" rel="external">http://blog.csdn.net/u010062440/article/details/50077047</a>尝试自己安装 sqlcipher，命令行解密，然而失败，参数原因。</li>
+<li>mac 上安装 pysqlcipher 失败，原因在于 OS X 10.11(EI Captain)去掉了默认的 openssl 库，<ol>
+<li>brew install openssl</li>
+<li>brew link openssl –force</li>
+<li>然而，pip install pysqlcipher 依然失败，因为 /usr/local/include 不在 cc 的 header path 中</li>
+<li>根据 <a href="http://stackoverflow.com/questions/4825652/how-do-i-add-a-directory-to-c-header-include-path" target="_blank" rel="external">http://stackoverflow.com/questions/4825652/how-do-i-add-a-directory-to-c-header-include-path</a><br>export C_INCLUDE_PATH=/usr/local/include<br>再安装就好了。。。<br>由于安装的时候 sudo了，所以先sudo -s 再 export 吧。不然 sudo 后的环境变量会消失。</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-神奇的mapping-文件夹" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -230,6 +438,7 @@
 <h3 id="队友用的-eclipse-毫无这个问题"><a href="#队友用的-eclipse-毫无这个问题" class="headerlink" title="队友用的 eclipse 毫无这个问题"></a>队友用的 eclipse 毫无这个问题</h3><p>这是怎么回事呢？<br><a href="http://stackoverflow.com/questions/12444683/why-xml-files-in-eclipse-projects-source-directory-is-not-copied-to-target-clas" target="_blank" rel="external">http://stackoverflow.com/questions/12444683/why-xml-files-in-eclipse-projects-source-directory-is-not-copied-to-target-clas</a><br>这篇就解答了，实际上 eclipse 默认会将资源文件复制到输出目录中。。。好吧</p>
 <h2 id="IDEA-要怎么复制呢？"><a href="#IDEA-要怎么复制呢？" class="headerlink" title="IDEA 要怎么复制呢？"></a>IDEA 要怎么复制呢？</h2><p><a href="http://stackoverflow.com/questions/11176969/intellij-how-to-make-non-java-files-copied-to-the-bin-directory-as-well" target="_blank" rel="external">http://stackoverflow.com/questions/11176969/intellij-how-to-make-non-java-files-copied-to-the-bin-directory-as-well</a><br>这篇是相关问题的汇总。<br>但即使是在 <code>Compiler | Resource Patterns</code> 中添加 <code>?*.xml</code> 甚至 <code>**.*.xml</code> 依然不能解决，我猜想原因在于 IDEA 识别出了 maven 项目，会按照它的方式来处理资源文件（*.xml 等）</p>
 <h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>解决办法在<a href="http://stackoverflow.com/questions/12444683/why-xml-files-in-eclipse-projects-source-directory-is-not-copied-to-target-clas" target="_blank" rel="external">第一个链接</a>中已经提到<br>在 pom.xml 中添加如下代码：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- This include everything else under src/main/java directory --&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">directory</span>&gt;</span>$&#123;basedir&#125;/src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">excludes</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">exclude</span>&gt;</span>**/*.java<span class="tag">&lt;/<span class="name">exclude</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">excludes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">finalName</span>&gt;</span>flyeagle<span class="tag">&lt;/<span class="name">finalName</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>或者参考<a href="http://blog.csdn.net/u012599988/article/details/44041205" target="_blank" rel="external">http://blog.csdn.net/u012599988/article/details/44041205</a>，插入<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.xml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>true<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">resources</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>这时再次 build，世界都清净了！</p>
 
       
